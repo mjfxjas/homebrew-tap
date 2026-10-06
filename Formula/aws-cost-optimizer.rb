@@ -80,7 +80,7 @@ class AwsCostOptimizer < Formula
 
   def install
     ENV["AWS_CRT_BUILD_USE_SYSTEM_LIBCRYPTO"] = "1"
-    virtualenv_install_with_resources
+    virtualenv_install_with_resources(system_site_packages: false)
   end
 
   test do
