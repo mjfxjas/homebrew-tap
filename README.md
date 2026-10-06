@@ -15,11 +15,24 @@ Homebrew installs Python and the program's dependencies, including AWS CRT for
 activation step. AWS credentials, a region, and suitable IAM permissions are
 still required to analyze your account.
 
+## Install WonderDash
+
+```bash
+brew install mjfxjas/tap/wonder-dash
+wonder-dash setup
+wonder-dash hub
+```
+
+WonderDash provides a terminal dashboard for CloudFront and other AWS services.
+It includes CRT support for `aws login` credentials and uses a fully isolated
+Python environment. AWS credentials and the appropriate permissions are required.
+
 To upgrade:
 
 ```bash
 brew update
 brew upgrade mjfxjas/tap/aws-cost-optimizer
+brew upgrade mjfxjas/tap/wonder-dash
 ```
 
 ## Add another program
@@ -42,19 +55,24 @@ brew test mjfxjas/tap/PROGRAM_NAME
 brew audit --strict --online mjfxjas/tap/PROGRAM_NAME
 ```
 
-## Update AWS Cost Optimizer
+## Update a Python formula
 
-1. Publish a new AWS Cost Optimizer release to PyPI.
+1. Publish a new version of the program to PyPI.
 2. Update the formula's source URL and SHA256 using that release's source distribution.
 3. Regenerate dependencies:
 
    ```bash
    brew update-python-resources mjfxjas/tap/aws-cost-optimizer --install-dependencies
+   # Or, for WonderDash:
+   brew update-python-resources mjfxjas/tap/wonder-dash --install-dependencies
    ```
+
+For a just-published release, resource generation may need
+   `--ignore-main-package-cooldown`; dependency cooldowns remain in effect.
 
 4. Run install/test/audit, then commit and push the formula update.
 
-The formula records `boto3[crt]` as an additional dependency root so AWS CRT
+Both AWS formulas record `boto3[crt]` as an additional dependency root so AWS CRT
 support remains included when resources are regenerated. The generated GitHub
 workflows check tap syntax on pushes and build/test formulas for pull requests.
 
